@@ -4,9 +4,9 @@ grass = load_image('grass.png')
 character = load_image('animation_sheet.png')
 
 def run_anim_dot_to_dot(x1, y1, x2, y2):
-    animnum = 0
+    animkind = 0
     if x2 > x1:
-        animnum  = 1
+        animkind  = 1
     movecnt = 0
     frame = 0
     radian = math.atan2(x2 - x1, y2 - y1) // 3.14 * 180
@@ -17,7 +17,7 @@ def run_anim_dot_to_dot(x1, y1, x2, y2):
         x = (x2 - x1) / 50 * movecnt + x1
         y = (y2 - y1) / 50 * movecnt + y1
 
-        character.clip_draw(frame * 100, animnum * 100, 100, 100, x, y)
+        character.clip_draw(frame * 100, animkind * 100, 100, 100, x, y)
         update_canvas()
 
         frame = (frame + 1) % 8
