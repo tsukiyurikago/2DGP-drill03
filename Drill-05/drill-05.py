@@ -3,8 +3,26 @@ open_canvas()
 grass = load_image('grass.png')
 character = load_image('animation_sheet.png')
 
-def move_dot_to_dot(x1, y1, x2, y2)
-    pass
+def move_dot_to_dot(x1, y1, x2, y2):
+    animnum = 0
+    if x2 > x1:
+        animnum  = 1
+    movecnt = 0
+    frame = 0
+    radian = math.atan2(x2 - x1, y2 - y1) // 3.14 * 180
+    while movecnt < 10:
+        clear_canvas()
+        grass.draw(400, 30)
+
+        x = (x2 - x1) / 10 * movecnt + x1
+        y = (y2 - y1) / 10 * movecnt + y1
+
+        character.clip_draw(frame * 100, animnum * 100, 100, 100, x, y)
+        update_canvas()
+
+        frame = (frame + 1) % 8
+        movecnt += 1
+        delay(0.05)
 
 while True:
     move_dot_to_dot(203,535,132,243)
