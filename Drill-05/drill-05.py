@@ -10,12 +10,12 @@ def move_dot_to_dot(x1, y1, x2, y2):
     movecnt = 0
     frame = 0
     radian = math.atan2(x2 - x1, y2 - y1) // 3.14 * 180
-    while movecnt < 10:
+    while movecnt < 50:
         clear_canvas()
         grass.draw(400, 30)
 
-        x = (x2 - x1) / 10 * movecnt + x1
-        y = (y2 - y1) / 10 * movecnt + y1
+        x = (x2 - x1) / 50 * movecnt + x1
+        y = (y2 - y1) / 50 * movecnt + y1
 
         character.clip_draw(frame * 100, animnum * 100, 100, 100, x, y)
         update_canvas()
