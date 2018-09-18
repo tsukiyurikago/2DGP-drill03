@@ -34,7 +34,7 @@ def move_left():
 
 def move_down():
     x, y = 50, 600 - 50
-    while y > 50:
+    while y > 50 + 40:
         clear_canvas_now()
         grass.draw_now(400, 30)
         character.draw_now(x,y)
@@ -42,7 +42,13 @@ def move_down():
         delay(0.01)
 
 def move_left_to_center():
-    pass
+    x, y = 50, 90
+    while x < 800 // 2:
+        clear_canvas_now()
+        grass.draw_now(400, 30)
+        character.draw_now(x,y)
+        x += 2
+        delay(0.01)
 
 
 
