@@ -14,10 +14,10 @@ def run_anim_dot_to_dot(x1, y1, x2, y2):
         clear_canvas()
         grass.draw(400, 30)
 
-        x = (x2 - x1) / 50 * movecnt + x1
-        y = (y2 - y1) / 50 * movecnt + y1
+        xposition = (x2 - x1) / 50 * movecnt + x1
+        yposition = (y2 - y1) / 50 * movecnt + y1
 
-        character.clip_draw(frame * 100, animkind * 100, 100, 100, x, y)
+        character.clip_draw(frame * 100, animkind * 100, 100, 100, xposition, yposition)
         update_canvas()
 
         frame = (frame + 1) % 8
