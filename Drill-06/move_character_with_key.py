@@ -23,8 +23,10 @@ def handle_events():
                 running = False
         elif event.type == SDL_KEYUP:
             if event.key == SDLK_RIGHT:
+                row = 3
                 dir -= 1
             elif event.key == SDLK_LEFT:
+                row = 2
                 dir += 1
 
 
@@ -35,7 +37,8 @@ character = load_image('animation_sheet.png')
 running = True
 x = 800 // 2
 frame = 0
-row = 0
+row = 3
+dir = 0
 
 while running:
     clear_canvas()
@@ -45,6 +48,7 @@ while running:
 
     handle_events()
     frame = (frame + 1) % 8
+    x += dir * 5
 
     delay(0.05)
 
