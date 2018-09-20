@@ -12,10 +12,10 @@ def handle_events():
         elif event.type == SDL_KEYDOWN:
             if event.key == SDLK_RIGHT:
                 x = x + 10
-                row = 0
+                row = 1
             elif event.key == SDLK_LEFT:
                 x = x - 10
-                row = 1
+                row = 0
             elif event.key == SDLK_ESCAPE:
                 running = False
 
