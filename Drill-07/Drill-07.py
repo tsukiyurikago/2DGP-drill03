@@ -3,6 +3,17 @@ open_canvas()
 grass = load_image('KPU_GROUND.png')
 character = load_image('animation_sheet.png')
 
+def handle_events():
+    global running
+
+    events = get_events()
+    for event in events:
+        if event.type == SDL_QUIT:
+            running = False
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
+            running = False
+
+
 def run_anim_dot_to_dot(x1, y1, x2, y2):
     animkind = 0
     if x2 > x1:
@@ -12,7 +23,7 @@ def run_anim_dot_to_dot(x1, y1, x2, y2):
     radian = math.atan2(x2 - x1, y2 - y1) // 3.14 * 180
     while movecnt < 50:
         clear_canvas()
-        grass.draw(400, 30)
+        grass.draw(0, 0)
 
         xposition = (x2 - x1) / 50 * movecnt + x1
         yposition = (y2 - y1) / 50 * movecnt + y1
@@ -24,7 +35,9 @@ def run_anim_dot_to_dot(x1, y1, x2, y2):
         movecnt += 1
         delay(0.05)
 
-while True:
+running = True
+
+while running:
     run_anim_dot_to_dot(203,535,132,243)
     run_anim_dot_to_dot(132,243,535,470)
     run_anim_dot_to_dot(535,470,477,203)
@@ -35,6 +48,8 @@ while True:
     run_anim_dot_to_dot(692,518,682,336)
     run_anim_dot_to_dot(682,336,712,349)
     run_anim_dot_to_dot(712,349,203,535)
+
+    handle_events()
 
 
 close_canvas()
