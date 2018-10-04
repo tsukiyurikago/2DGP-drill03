@@ -91,27 +91,11 @@ size = len(randomxs)
 cnt = 3
 n = 1
 while running:
-    if(n+3<10):
-        run_anim_dot_to_dot(randomxs[n],randomys[n],randomxs[n+1],randomys[n+1],randomxs[n+2],randomys[n+2],randomxs[n+3],randomys[n+3])
+        run_anim_dot_to_dot(randomxs[n%size],randomys[n%size],randomxs[(n+1)%size],randomys[(n+1)%size],randomxs[(n+2)%size],randomys[(n+2)%size],randomxs[(n+3)%size],randomys[(n+3)%size])
         if(cnt<13):
             cnt = cnt + 1
-    elif(n==7):
-        run_anim_dot_to_dot(randomxs[n],randomys[n],randomxs[n+1],randomys[n+1],randomxs[n+2],randomys[n+2],randomxs[0],randomys[0])
-        if(cnt<13):
-            cnt = cnt + 1
-    elif(n==8):
-        run_anim_dot_to_dot(randomxs[n],randomys[n],randomxs[n+1],randomys[n+1],randomxs[0],randomys[0],randomxs[1],randomys[1])
-        if(cnt<13):
-            cnt = cnt + 1
-    elif(n==9):
-        run_anim_dot_to_dot(randomxs[n],randomys[n],randomxs[0],randomys[0],randomxs[1],randomys[1],randomxs[2],randomys[2])
-        if(cnt<13):
-            cnt = cnt + 1
-
-    n = ( n + 1) % size
-
-
-    handle_events()
+        n = ( n + 1) % size
+        handle_events()
 
 
 close_canvas()
