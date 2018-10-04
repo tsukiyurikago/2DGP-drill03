@@ -53,10 +53,10 @@ def run_anim_dot_to_dot(x1, y1, x2, y2, x3, y3, x4, y4):
         global cnt
 
         for i in range(3,cnt):
-            if(cnt<10):
-                character.clip_draw(1 * 100, 1 * 100, 100, 100, randomxs[i], randomys[i])
+            if(randomxs[(i+1)%10]>randomxs[i%10]):
+                character.clip_draw(1 * 100, 1 * 100, 100, 100, randomxs[i%10], randomys[i%10])
             else:
-                character.clip_draw(1 * 100, 1 * 100, 100, 100, randomxs[i-10], randomys[i-10])
+                character.clip_draw(1 * 100, 0 * 100, 100, 100, randomxs[i%10], randomys[i%10])
 
 
         character.clip_draw(frame * 100, animkind * 100, 100, 100, xposition, yposition)
