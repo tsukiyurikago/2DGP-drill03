@@ -53,7 +53,11 @@ def run_anim_dot_to_dot(x1, y1, x2, y2, x3, y3, x4, y4):
         global cnt
 
         for i in range(3,cnt):
-            character.clip_draw(1 * 100, 1 * 100, 100, 100, randomxs[i], randomys[i])
+            if(cnt<10):
+                character.clip_draw(1 * 100, 1 * 100, 100, 100, randomxs[i], randomys[i])
+            else:
+                character.clip_draw(1 * 100, 1 * 100, 100, 100, randomxs[i-10], randomys[i-10])
+
 
         character.clip_draw(frame * 100, animkind * 100, 100, 100, xposition, yposition)
         update_canvas()
@@ -89,14 +93,20 @@ n = 1
 while running:
     if(n+3<10):
         run_anim_dot_to_dot(randomxs[n],randomys[n],randomxs[n+1],randomys[n+1],randomxs[n+2],randomys[n+2],randomxs[n+3],randomys[n+3])
-        if(cnt<10):
+        if(cnt<13):
             cnt = cnt + 1
     elif(n==7):
         run_anim_dot_to_dot(randomxs[n],randomys[n],randomxs[n+1],randomys[n+1],randomxs[n+2],randomys[n+2],randomxs[0],randomys[0])
+        if(cnt<13):
+            cnt = cnt + 1
     elif(n==8):
         run_anim_dot_to_dot(randomxs[n],randomys[n],randomxs[n+1],randomys[n+1],randomxs[0],randomys[0],randomxs[1],randomys[1])
+        if(cnt<13):
+            cnt = cnt + 1
     elif(n==9):
         run_anim_dot_to_dot(randomxs[n],randomys[n],randomxs[0],randomys[0],randomxs[1],randomys[1],randomxs[2],randomys[2])
+        if(cnt<13):
+            cnt = cnt + 1
 
     n = ( n + 1) % size
 
