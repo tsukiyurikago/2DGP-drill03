@@ -6,21 +6,30 @@ class m_ball:
     def __init__(self):
         self.image1 = load_image('ball21x21.png')
         self.image2 = load_image('ball41x41.png')
-        self.x, self.y = random.randint(0, 800), 800
-        self.yspeed = random.randint(0.0, -5.0)
+        self.x, self.y = random.randint(0, 800), 600
+        self.yspeed = random.randint(0, 10)
         self.size = random.randint(0, 1)
 
     def update(self):
-        if self.y <= 90:
-            self.y = 90
+        if self.y <= 60:
+            self.yspeed = self.yspeed*-0.7
+            #self.y -= self.yspeed
+
         else:
-            self.y += self.yspeed
+            if self.yspeed < 1 and self.yspeed > -1:
+                pass
+
+            else:
+                self.y -= self.yspeed
+
+        if self.yspeed<20.0:
+            self.yspeed = self.yspeed + 0.1
 
     def draw(self):
         if self.size == 0:
-            self.image1.draw(x, y)
+            self.image1.draw(self.x, self.y)
         else:
-            self.image2.draw(x, y)
+            self.image2.draw(self.x, self.y)
 
 
 class Grass:
@@ -55,6 +64,8 @@ def handle_events():
 # initialization code
 open_canvas()
 
+m_balls = [m_ball() for i in range(20)]
+
 team = [Boy() for i in range(11)]
 grass = Grass()
 running = True
@@ -63,15 +74,21 @@ running = True
 while running:
     handle_events()
 
+    for ball in m_balls:
+        ball.update()
+
     for object in team:
         object.update()
 
     clear_canvas()
     grass.draw()
+    for ball in m_balls:
+        ball.draw()
+
     for object in team:
         object.draw()
     update_canvas()
 
-    delay(0.05)
+    delay(0.016)
 # finalization code
 close_canvas()
