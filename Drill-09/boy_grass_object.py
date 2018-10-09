@@ -1,6 +1,11 @@
 from pico2d import *
 
 # Game object class here
+class Grass:
+    def _init_(self):
+        self.image = load_image('grass.png')
+    def draw(self):
+        self.image.draw(400,30)
 
 def handle_events():
     global running
