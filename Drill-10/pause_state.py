@@ -31,6 +31,8 @@ def handle_events():
 
 def draw():
     clear_canvas()
+    game_framework.stack[1].grass.draw()
+    game_framework.stack[1].boy.draw()
     image.draw(400, 300)
     update_canvas()
 
