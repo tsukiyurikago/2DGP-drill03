@@ -5,7 +5,6 @@ from pico2d import *
 
 name = "PauseState"
 image = None
-blinktime = 0.05
 
 
 def enter():
@@ -32,10 +31,7 @@ def handle_events():
 
 def draw():
     clear_canvas()
-    game_framework.stack[1].grass.draw()
-    game_framework.stack[1].boy.draw()
-    if blinktime > 1.0:
-        image.draw(400, 300)
+    image.draw(400, 300)
     update_canvas()
 
 
@@ -45,13 +41,7 @@ def draw():
 
 
 def update():
-    global blinktime
-
-    delay(0.01)
-    blinktime += 0.05
-
-    if blinktime > 2.0:
-        blinktime = 0.0
+    pass
 
 
 def pause():
