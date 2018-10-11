@@ -5,7 +5,7 @@ from pico2d import *
 
 name = "PauseState"
 image = None
-blinktime = 0.05
+blinktime = 0.01
 
 
 def enter():
