@@ -46,7 +46,7 @@ class IdleState:
             boy.velocity -= RUN_SPEED_PPS
         elif event == LEFT_UP:
             boy.velocity += RUN_SPEED_PPS
-        boy.timer = get_time()
+        boy.timer = 0.0
 
     @staticmethod
     def exit(boy, event):
@@ -57,8 +57,8 @@ class IdleState:
     @staticmethod
     def do(boy):
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
-        #boy.timer += game_framework.frame_time
-        if get_time() - boy.timer > 0.7:
+        boy.timer += game_framework.frame_time
+        if boy.timer > 9.6:
             boy.add_event(SLEEP_TIMER)
 
     @staticmethod
@@ -107,7 +107,8 @@ class SleepState:
     @staticmethod
     def enter(boy, event):
         boy.frame = 0
-        boy.timer = get_time()*3.2
+        boy.timer = 0.0
+        boy.m_ghoston = False
         boy.m_ghostdgr = 0.0
         boy.m_ghostx = boy.x
         boy.m_ghosty = boy.y
@@ -115,28 +116,32 @@ class SleepState:
 
     @staticmethod
     def exit(boy, event):
+        global ghost
+        if boy.m_ghoston == True :
+            game_world.remove_object(ghost)
         pass
 
     @staticmethod
     def do(boy):
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
-        if get_time()*3.2 - boy.timer < 5.0 :
-            boy.m_ghostdgr += game_framework.frame_time
+        if boy.timer < 1.0 :
+            boy.m_ghostdgr += game_framework.frame_time * 1.5
             boy.m_ghosty += game_framework.frame_time * 25.0
-        if get_time()*3.2 - boy.timer > 5.0 :
+            boy.timer += game_framework.frame_time
+        elif get_time()*3.2 - boy.timer >= 1.0 and boy.m_ghoston == False :
             boy.fire_ghost()
-            #boy.m_ghostspinangle += 1
-            #boy.m_ghostx = 50 * math.cos(boy.m_ghostspinangle*3.14/180) + 800
-            #boy.m_ghosty = 50 * math.sin(boy.m_ghostspinangle*3.14/180) + 300
+            boy.m_ghoston = True
 
     @staticmethod
     def draw(boy):
         if boy.dir == 1:
             boy.image.clip_composite_draw(int(boy.frame) * 100, 300, 100, 100, 3.141592 / 2, '', boy.x - 25, boy.y - 25, 100, 100)
-            boy.image.clip_composite_draw(int(boy.frame) * 100, 300, 100, 100, 3.141592 / 2 - boy.m_ghostdgr, '', boy.m_ghostx - 25, boy.m_ghosty - 25, 100, 100)
+            if boy.m_ghoston == False :
+                boy.image.clip_composite_draw(int(boy.frame) * 100, 300, 100, 100, 3.141592 / 2 - boy.m_ghostdgr, '', boy.m_ghostx - 25, boy.m_ghosty - 25, 100, 100)
         else:
             boy.image.clip_composite_draw(int(boy.frame) * 100, 200, 100, 100, -3.141592 / 2, '', boy.x + 25, boy.y - 25, 100, 100)
-            boy.image.clip_composite_draw(int(boy.frame) * 100, 200, 100, 100, -3.141592 / 2 + boy.m_ghostdgr, '', boy.m_ghostx + 25, boy.m_ghosty - 25, 100, 100)
+            if boy.m_ghoston == False:
+                boy.image.clip_composite_draw(int(boy.frame) * 100, 200, 100, 100, -3.141592 / 2 + boy.m_ghostdgr, '', boy.m_ghostx + 25, boy.m_ghosty - 25, 100, 100)
 
 
 
@@ -167,6 +172,7 @@ class Boy:
         self.m_ghostx = 0
         self.m_ghosty = 0
         self.m_ghostopt = 0.0
+        self.m_ghoston = False
 
 
     def fire_ball(self):
@@ -175,7 +181,8 @@ class Boy:
 
 
     def fire_ghost(self):
-        ghost = Ghost(self.x, self.y)
+        global ghost
+        ghost = Ghost(self.x, self.y, self.dir)
         game_world.add_object(ghost, 1)
 
 
