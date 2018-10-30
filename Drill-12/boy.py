@@ -6,16 +6,16 @@ import game_world
 
 # Boy Run Speed
 PIXEL_PER_METER = (10.0 / 0.3)
-RUN_SPEED_KMPH = 20.0
+RUN_SPEED_KMPH = 20.0 #km.hour
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
 
 # Boy Action Speed
 # fill expressions correctly
-TIME_PER_ACTION = 0
-ACTION_PER_TIME = 0
-FRAMES_PER_ACTION = 0
+TIME_PER_ACTION = 0.5
+ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+FRAMES_PER_ACTION = 8
 
 
 
@@ -45,7 +45,7 @@ class IdleState:
             boy.velocity -= RUN_SPEED_PPS
         elif event == LEFT_UP:
             boy.velocity += RUN_SPEED_PPS
-        boy.timer = 1000
+        boy.timer = get_time()*3.2
 
     @staticmethod
     def exit(boy, event):
@@ -56,8 +56,8 @@ class IdleState:
     @staticmethod
     def do(boy):
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
-        boy.timer -= 1
-        if boy.timer == 0:
+        boy.timer += game_framework.frame_time
+        if get_time()*3.2 - boy.timer > 2.0:
             boy.add_event(SLEEP_TIMER)
 
     @staticmethod
@@ -89,7 +89,7 @@ class RunState:
 
     @staticmethod
     def do(boy):
-        boy.frame = (boy.frame + 1) % 8
+        boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
         boy.x += boy.velocity * game_framework.frame_time
         boy.x = clamp(25, boy.x, 1600 - 25)
 
@@ -106,6 +106,10 @@ class SleepState:
     @staticmethod
     def enter(boy, event):
         boy.frame = 0
+        boy.timer = get_time()*3.2
+        boy.m_ghostdgr = 0.0
+        boy.m_ghostx = boy.x
+        boy.m_ghosty = boy.y
 
     @staticmethod
     def exit(boy, event):
@@ -114,13 +118,18 @@ class SleepState:
     @staticmethod
     def do(boy):
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
+        if get_time()*3.2 - boy.timer < 5.0 :
+            boy.m_ghostdgr += game_framework.frame_time
+            boy.m_ghosty += game_framework.frame_time * 25.0
 
     @staticmethod
     def draw(boy):
         if boy.dir == 1:
             boy.image.clip_composite_draw(int(boy.frame) * 100, 300, 100, 100, 3.141592 / 2, '', boy.x - 25, boy.y - 25, 100, 100)
+            boy.image.clip_composite_draw(int(boy.frame) * 100, 300, 100, 100, 3.141592 / 2 - boy.m_ghostdgr, '', boy.m_ghostx - 25, boy.m_ghosty - 25, 100, 100)
         else:
             boy.image.clip_composite_draw(int(boy.frame) * 100, 200, 100, 100, -3.141592 / 2, '', boy.x + 25, boy.y - 25, 100, 100)
+            boy.image.clip_composite_draw(int(boy.frame) * 100, 200, 100, 100, -3.141592 / 2 + boy.m_ghostdgr, '', boy.m_ghostx + 25, boy.m_ghosty - 25, 100, 100)
 
 
 
@@ -146,6 +155,11 @@ class Boy:
         self.event_que = []
         self.cur_state = IdleState
         self.cur_state.enter(self, None)
+        self.m_ghostdgr = 0
+        self.m_ghostspinangle = 0
+        self.m_ghostx = 0
+        self.m_ghosty = 0
+        self.m_ghostopt = 0.0
 
 
     def fire_ball(self):
