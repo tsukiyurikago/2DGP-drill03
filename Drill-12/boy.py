@@ -3,6 +3,7 @@ from pico2d import *
 from ball import Ball
 
 import game_world
+import math
 
 # Boy Run Speed
 PIXEL_PER_METER = (10.0 / 0.3)
@@ -45,7 +46,7 @@ class IdleState:
             boy.velocity -= RUN_SPEED_PPS
         elif event == LEFT_UP:
             boy.velocity += RUN_SPEED_PPS
-        boy.timer = get_time()*3.2
+        boy.timer = get_time()
 
     @staticmethod
     def exit(boy, event):
@@ -56,8 +57,8 @@ class IdleState:
     @staticmethod
     def do(boy):
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
-        boy.timer += game_framework.frame_time
-        if get_time()*3.2 - boy.timer > 2.0:
+        #boy.timer += game_framework.frame_time
+        if get_time() - boy.timer > 9.7:
             boy.add_event(SLEEP_TIMER)
 
     @staticmethod
@@ -110,6 +111,7 @@ class SleepState:
         boy.m_ghostdgr = 0.0
         boy.m_ghostx = boy.x
         boy.m_ghosty = boy.y
+        boy.m_ghostspinangle = 270.0
 
     @staticmethod
     def exit(boy, event):
@@ -121,6 +123,9 @@ class SleepState:
         if get_time()*3.2 - boy.timer < 5.0 :
             boy.m_ghostdgr += game_framework.frame_time
             boy.m_ghosty += game_framework.frame_time * 25.0
+        if get_time()*3.2 - boy.timer > 5.0 :
+            boy.m_ghostx = 50 * math.cos(boy.m_ghostspinangle*3.14/180)
+            boy.m_ghostx = 50 * math.sin(boy.m_ghostspinangle*3.14/180)
 
     @staticmethod
     def draw(boy):
