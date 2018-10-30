@@ -1,9 +1,9 @@
 import game_framework
 from pico2d import *
 from ball import Ball
+from ghost import Ghost
 
 import game_world
-import math
 
 # Boy Run Speed
 PIXEL_PER_METER = (10.0 / 0.3)
@@ -58,7 +58,7 @@ class IdleState:
     def do(boy):
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
         #boy.timer += game_framework.frame_time
-        if get_time() - boy.timer > 9.7:
+        if get_time() - boy.timer > 0.7:
             boy.add_event(SLEEP_TIMER)
 
     @staticmethod
@@ -124,8 +124,10 @@ class SleepState:
             boy.m_ghostdgr += game_framework.frame_time
             boy.m_ghosty += game_framework.frame_time * 25.0
         if get_time()*3.2 - boy.timer > 5.0 :
-            boy.m_ghostx = 50 * math.cos(boy.m_ghostspinangle*3.14/180)
-            boy.m_ghostx = 50 * math.sin(boy.m_ghostspinangle*3.14/180)
+            boy.fire_ghost()
+            #boy.m_ghostspinangle += 1
+            #boy.m_ghostx = 50 * math.cos(boy.m_ghostspinangle*3.14/180) + 800
+            #boy.m_ghosty = 50 * math.sin(boy.m_ghostspinangle*3.14/180) + 300
 
     @staticmethod
     def draw(boy):
@@ -170,6 +172,11 @@ class Boy:
     def fire_ball(self):
         ball = Ball(self.x, self.y, self.dir*3)
         game_world.add_object(ball, 1)
+
+
+    def fire_ghost(self):
+        ghost = Ghost(self.x, self.y)
+        game_world.add_object(ghost, 1)
 
 
     def add_event(self, event):
