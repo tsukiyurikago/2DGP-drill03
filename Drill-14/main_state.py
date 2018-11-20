@@ -7,6 +7,8 @@ import game_framework
 import game_world
 
 from boy import Boy
+#from background import FixedBackground as Background
+from background import Background as Background
 from grass import Grass
 from ball import Ball
 
@@ -44,6 +46,13 @@ def enter():
     global balls
     balls = [Ball() for i in range(10)]
     game_world.add_objects(balls, 1)
+
+    global background
+    background = Background()
+    game_world.add_object(background, 0)
+
+    background.set_center_object(boy)
+    boy.set_background(background)
 
 
 
