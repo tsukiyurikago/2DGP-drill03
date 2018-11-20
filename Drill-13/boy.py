@@ -70,8 +70,8 @@ class WalkingState:
         boy.x += boy.x_velocity * game_framework.frame_time
         boy.y += boy.y_velocity * game_framework.frame_time
 
-        boy.x=clamp(0+100+(boy.y*0.2),boy.x,boy.bg.w-100-(boy.y*0.2))
-        boy.y=clamp(0+280,boy.y,boy.bg.h-200)
+        boy.x=clamp(0+10+(boy.y*0.2),boy.x,boy.bg.w-10-(boy.y*0.2))
+        boy.y=clamp(0+70,boy.y,boy.bg.h-20)
 
 
     @staticmethod
