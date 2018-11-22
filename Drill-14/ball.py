@@ -11,7 +11,10 @@ class Ball:
         self.canvas_height = get_canvas_height()
         if Ball.image == None:
             Ball.image = load_image('ball21x21.png')
-        self.x, self.y, self.fall_speed = random.randint(0, 1600-1), 60, 0
+        self.x, self.y, self.fall_speed = random.randint(0, 1837), random.randint(0, 1109), 0
+        self.type = 2
+        self.cx = 0.0
+        self.cy = 0.0
 
     def get_bb(self):
         # fill here

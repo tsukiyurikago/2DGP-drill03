@@ -121,6 +121,7 @@ class Boy:
         self.event_que = []
         self.cur_state = WalkingState
         self.cur_state.enter(self, None)
+        self.type = 0
 
         self.eat_sound = load_wav('pickup.wav')
         self.eat_sound.set_volume(32)

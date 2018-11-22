@@ -42,12 +42,13 @@ def enter():
     background = Background()
     game_world.add_object(background, 0)
 
-    global ball
-    ball = Ball()
-    game_world.add_object(ball, 1)
+
+    for i in range(100):
+        ball = Ball()
+        game_world.add_object(ball, 1)
+        ball.set_center_object(boy)
 
     background.set_center_object(boy)
-    ball.set_center_object(boy)
     boy.set_background(background)
 
 
@@ -76,11 +77,13 @@ def handle_events():
 
 
 def update():
+    for ball in game_world.all_objects():
+        if ball.type == 2:
+            if collide(boy, ball):
+                boy.eat(ball)
+                game_world.remove_object(ball)
     for game_object in game_world.all_objects():
         game_object.update()
-    if collide(boy, ball):
-        boy.eat(ball)
-        game_world.remove_object(ball)
 
 
 def draw():
