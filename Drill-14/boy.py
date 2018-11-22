@@ -76,8 +76,8 @@ class WalkingState:
 
     @staticmethod
     def draw(boy):
-#        cx,cy = boy.x - boy.bg.window_left,boy.y-boy.bg.window_bottom
-        cx,cy = boy.bg.canvas_width//2,boy.bg.canvas_height//2
+        cx,cy = boy.x - boy.bg.window_left,boy.y-boy.bg.window_bottom
+#        cx,cy = boy.bg.canvas_width//2,boy.bg.canvas_height//2
 
         if boy.x_velocity > 0:
             boy.image.clip_draw(int(boy.frame) * 100, 100, 100, 100, cx, cy)
@@ -132,8 +132,9 @@ class Boy:
         self.score += 1
 
     def get_bb(self):
-        cx,cy = self.bg.canvas_width//2,self.bg.canvas_height//2
-        return cx - 50, cy - 50, cx + 50, cy + 50
+#        cx,cy = self.bg.canvas_width//2,self.bg.canvas_height//2
+        cx,cy = self.x - self.bg.window_left,self.y-self.bg.window_bottom
+        return cx - 20, cy - 40, cx + 20, cy + 40
 
 
     def set_background(self, bg):
@@ -154,9 +155,10 @@ class Boy:
 
     def draw(self):
         self.cur_state.draw(self)
-#        self.font.draw(self.x - self.bg.window_left - 60, self.y-self.bg.window_bottom + 50, '(%5d, %5d)' % (self.x, self.y), (255, 255, 0))
-        self.font.draw(self.bg.canvas_width // 2 - 60, self.bg.canvas_height // 2 + 50, '(%5d, %5d)' % (self.x, self.y), (255, 255, 0))
-        self.font.draw(self.bg.canvas_width // 2 - 60, self.bg.canvas_height // 2 + 75, '(%5d)' % (self.score), (255, 0, 0))
+        self.font.draw(self.x - self.bg.window_left - 60, self.y-self.bg.window_bottom + 50, '(%5d, %5d)' % (self.x, self.y), (255, 255, 0))
+        self.font.draw(self.x - self.bg.window_left - 60, self.y-self.bg.window_bottom + 75, '(%5d)' % (self.score), (255, 0, 0))
+#        self.font.draw(self.bg.canvas_width // 2 - 60, self.bg.canvas_height // 2 + 50, '(%5d, %5d)' % (self.x, self.y), (255, 255, 0))
+#        self.font.draw(self.bg.canvas_width // 2 - 15, self.bg.canvas_height // 2 + 75, '(%d)' % (self.score), (255, 0, 0))
         draw_rectangle(*self.get_bb())
 
     def handle_event(self, event):

@@ -29,7 +29,8 @@ class Ball:
         self.center_object = boy
 
     def update(self):
-        self.cx,self.cy = self.x - self.center_object.x + (self.canvas_width//2), self.y - self.center_object.y + (self.canvas_height//2)
+#        self.cx,self.cy = self.x - self.center_object.x + (self.canvas_width//2), self.y - self.center_object.y + (self.canvas_height//2)
+        self.cx,self.cy = self.x - self.center_object.bg.window_left, self.y - self.center_object.bg.window_bottom
         self.y -= self.fall_speed * game_framework.frame_time
 
     def stop(self):
